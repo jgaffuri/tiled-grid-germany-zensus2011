@@ -11,9 +11,33 @@ import pandas as pd
 
 print("Hallo Welt !")
 
+csvfile = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
+df = pd.read_csv(csvfile, sep=';', encoding='iso-8859-1', nrows=100)
 
-griddf = pd.read_csv("input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv", sep=';', encoding='iso-8859-1')
-#charset=iso-8859-1
+#drop unecessary columns
+df = df.drop(['Gitter_ID_100m_neu', 'Auspraegung_Text', 'Anzahl_q'], axis=1)
 
-#griddf.head(3)
+#
+df['Merkmal'] = df.apply(lambda row: row["Merkmal"].replace(' INSGESAMT', 'INSGESAMT'), axis=1)
 
+#make new variable columns
+df['variable'] = df.apply(lambda row: row["Merkmal"] + "_" + str(row["Auspraegung_Code"]), axis=1)
+
+#drop unecessary columns
+df = df.drop(['Merkmal', 'Auspraegung_Code'], axis=1)
+
+#make new grd_id columns
+df['grd_id'] = df.apply(lambda row: row["Gitter_ID_100m"].replace('100m', ''), axis=1)
+
+#drop unecessary columns
+df = df.drop(['Gitter_ID_100m'], axis=1)
+
+#rename columns
+df = df.rename(columns={"Anzahl": "value"})
+
+print(df)
+
+#export
+df.to_csv('/home/juju/Bureau/out.csv', index=False)  
+
+print("Done")
