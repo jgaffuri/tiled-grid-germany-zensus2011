@@ -6,6 +6,7 @@
 Download input data from: https://www.zensus2011.de/DE/Home/Aktuelles/DemografischeGrunddaten.html?nn=559100#Gitter
 Store it in a *input* folder at the root of the project.
 
+Run `node src/process.js`
 
 ## Copyright
 
