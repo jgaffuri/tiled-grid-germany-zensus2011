@@ -3,6 +3,7 @@
 #/home/juju/pythonvenvgridDE/bin/python ./src/process.py /usr/bin/python3 /home/juju/workspace/tiled-grid-germany-zensus2011/src/process.py
 
 import pandas as pd
+import numpy as np
 
 # see https://saturncloud.io/blog/how-to-use-pandas-with-jupyter-notebooks/
 # https://reproducible-science-curriculum.github.io/sharing-RR-Jupyter/01-sharing-github/
@@ -13,36 +14,40 @@ csvfile = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
 csvfileout = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M_small.csv"
 
 print("Load data")
-df = pd.read_csv(csvfile, sep=';', encoding='iso-8859-1') #, nrows=1000
+df = pd.read_csv(csvfile, sep=';', encoding='iso-8859-1') #, nrows=100)
 
 print("drop unecessary columns")
 df = df.drop(['Gitter_ID_100m_neu', 'Auspraegung_Text', 'Anzahl_q'], axis=1)
 
-print("modify Merkmal columns")
+print("modify Merkmal column")
 df['Merkmal'] = df.apply(lambda row: row["Merkmal"].replace(' INSGESAMT', 'INSGESAMT'), axis=1)
 
-print("Make new variable columns")
+print("Make new variable column")
 df['variable'] = df.apply(lambda row: row["Merkmal"] + "_" + str(row["Auspraegung_Code"]), axis=1)
 
 print("Drop unecessary columns")
 df = df.drop(['Merkmal', 'Auspraegung_Code'], axis=1)
 
-print("Make new grd_id columns")
+print("Make new grd_id column")
 df['grd_id'] = df.apply(lambda row: row["Gitter_ID_100m"].replace('100m', ''), axis=1)
 
-print("Drop unecessary columns")
+print("Drop unecessary column")
 df = df.drop(['Gitter_ID_100m'], axis=1)
 
-print("Rename columns")
+print("Rename Anzahl column")
 df = df.rename(columns={"Anzahl": "value"})
 
+print("Pivot")
 #.groupby("grd_id").pivot("variable", ["value"])
 # https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot_table.html
-#df = pd.pivot_table(df, columns=['variable'], values='value', index=['grd_id'])
+df = pd.pivot_table(df, columns=['variable'], values='value', index=['grd_id'], aggfunc=np.sum, fill_value=0)
+
+#print("Round")
+#df = df.round()
 
 #print(df)
 
 print("Save")
-df.to_csv(csvfileout, index=False)  
+df.to_csv(csvfileout)  
 
 print("Done")
