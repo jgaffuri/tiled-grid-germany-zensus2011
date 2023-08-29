@@ -9,35 +9,40 @@ import pandas as pd
 # https://github.com/wahlatlas/grid_data/blob/main/gridviz_tiled_csv.ipynb
 
 
-print("Hallo Welt !")
-
 csvfile = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
-df = pd.read_csv(csvfile, sep=';', encoding='iso-8859-1', nrows=100)
+csvfileout = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M_small.csv"
 
-#drop unecessary columns
+print("Load data")
+df = pd.read_csv(csvfile, sep=';', encoding='iso-8859-1') #, nrows=1000
+
+print("drop unecessary columns")
 df = df.drop(['Gitter_ID_100m_neu', 'Auspraegung_Text', 'Anzahl_q'], axis=1)
 
-#
+print("modify Merkmal columns")
 df['Merkmal'] = df.apply(lambda row: row["Merkmal"].replace(' INSGESAMT', 'INSGESAMT'), axis=1)
 
-#make new variable columns
+print("Make new variable columns")
 df['variable'] = df.apply(lambda row: row["Merkmal"] + "_" + str(row["Auspraegung_Code"]), axis=1)
 
-#drop unecessary columns
+print("Drop unecessary columns")
 df = df.drop(['Merkmal', 'Auspraegung_Code'], axis=1)
 
-#make new grd_id columns
+print("Make new grd_id columns")
 df['grd_id'] = df.apply(lambda row: row["Gitter_ID_100m"].replace('100m', ''), axis=1)
 
-#drop unecessary columns
+print("Drop unecessary columns")
 df = df.drop(['Gitter_ID_100m'], axis=1)
 
-#rename columns
+print("Rename columns")
 df = df.rename(columns={"Anzahl": "value"})
 
-print(df)
+#.groupby("grd_id").pivot("variable", ["value"])
+# https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot_table.html
+#df = pd.pivot_table(df, columns=['variable'], values='value', index=['grd_id'])
 
-#export
-df.to_csv('/home/juju/Bureau/out.csv', index=False)  
+#print(df)
+
+print("Save")
+df.to_csv(csvfileout, index=False)  
 
 print("Done")
