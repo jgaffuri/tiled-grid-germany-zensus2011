@@ -11,7 +11,7 @@ import numpy as np
 
 
 csvfile = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
-csvfileout = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M_small.csv"
+csvfileout = "input/csv_Demographie_100m_Gitter/out_demo.csv"
 
 print("Load data")
 df = pd.read_csv(csvfile, sep=';', encoding='iso-8859-1') #, nrows=100)
