@@ -1,6 +1,6 @@
 #!/home/juju/pythonvenvgridDE/bin python
 
-#/home/juju/pythonvenvgridDE/bin/python ./src/process.py /usr/bin/python3 /home/juju/workspace/tiled-grid-germany-zensus2011/src/process.py
+#/home/juju/pythonvenvgridDE/bin/python ./src/process_demo.py /usr/bin/python3 /home/juju/workspace/tiled-grid-germany-zensus2011/src/process_demo.py
 
 import pandas as pd
 import numpy as np
