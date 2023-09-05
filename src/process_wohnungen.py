@@ -14,7 +14,7 @@ csvfile = "input/csv_Wohnungen_100m_Gitter/Wohnungen100m.csv"
 csvfileout = "input/csv_Wohnungen_100m_Gitter/out.csv"
 
 print("Load data")
-df = pd.read_csv(csvfile, sep=',', encoding='iso-8859-1', nrows=10000)
+df = pd.read_csv(csvfile, sep=',', encoding='iso-8859-1') #, nrows=100000)
 
 print("drop unecessary columns")
 df = df.drop(['Gitter_ID_100m_neu', 'Auspraegung_Text', 'Anzahl_q'], axis=1)
