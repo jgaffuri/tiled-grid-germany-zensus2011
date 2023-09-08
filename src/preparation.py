@@ -5,28 +5,18 @@
 import pandas as pd
 import numpy as np
 
-# see https://saturncloud.io/blog/how-to-use-pandas-with-jupyter-notebooks/
-# https://reproducible-science-curriculum.github.io/sharing-RR-Jupyter/01-sharing-github/
-# https://github.com/wahlatlas/grid_data/blob/main/gridviz_tiled_csv.ipynb
-
 
 def prepare(csvfile, code, printfinal):
     print(code)
 
     print("Load data")
-    df = pd.read_csv(csvfile, sep=";", encoding="iso-8859-1") #, nrows=1000000)
+    df = pd.read_csv(csvfile, sep=";", encoding="iso-8859-1")  # , nrows=1000000)
 
     print("drop unecessary columns")
     df = df.drop(["Gitter_ID_100m_neu", "Auspraegung_Text", "Anzahl_q"], axis=1)
 
     print("drop unecessary rows")
     df = df[df.Merkmal == code]
-
-    #print("modify Merkmal column")
-    #df["Merkmal"] = df.apply(lambda row: row["Merkmal"].replace(" INSGESAMT", "INSGESAMT"), axis=1)
-
-    #print("Make new variable column")
-    #df["variable"] = df.apply(lambda row: row["Merkmal"] + "_" + str(row["Auspraegung_Code"]), axis=1)
 
     print("Drop unecessary columns")
     df = df.drop(["Merkmal"], axis=1)
@@ -43,8 +33,6 @@ def prepare(csvfile, code, printfinal):
     df = df.rename(columns={"Anzahl": "value"})
 
     print("Pivot")
-    # .groupby("grd_id").pivot("Auspraegung_Code", ["value"])
-    # https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot_table.html
     df = pd.pivot_table(
         df,
         columns=["Auspraegung_Code"],
