@@ -1,6 +1,6 @@
 #!/home/juju/pythonvenvgridDE/bin python
 
-# /home/juju/pythonvenvgridDE/bin/python ./src/process_demo.py /usr/bin/python3 /home/juju/workspace/tiled-grid-germany-zensus2011/src/process_demo.py
+# /home/juju/pythonvenvgridDE/bin/python ./src/preparation.py /usr/bin/python3 /home/juju/workspace/tiled-grid-germany-zensus2011/src/preparation.py
 
 import pandas as pd
 import numpy as np
@@ -10,11 +10,10 @@ import numpy as np
 # https://github.com/wahlatlas/grid_data/blob/main/gridviz_tiled_csv.ipynb
 
 
-def prepare(code, printfinal):
+def prepare(csvfile, code, printfinal):
     print(code)
 
     print("Load data")
-    csvfile = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
     df = pd.read_csv(csvfile, sep=";", encoding="iso-8859-1") #, nrows=1000000)
 
     print("drop unecessary columns")
@@ -62,24 +61,22 @@ def prepare(code, printfinal):
         print(df)
 
     print("Save")
-    df.to_csv("input/csv_Demographie_100m_Gitter/out_" + code + ".csv")
+    df.to_csv("input/out_" + code + ".csv")
 
     print("Done " + code)
 
 
 printfinal = False
-prepare(" INSGESAMT", printfinal)
-prepare("ALTER_KURZ", printfinal)
-prepare("FAMSTND_AUSF", printfinal)
-prepare("GEBURTLAND_GRP", printfinal)
-prepare("GESCHLECHT", printfinal)
-prepare("RELIGION_KURZ", printfinal)
-prepare("STAATSANGE_GRP", printfinal)
-
-
-
-
-
-
-def tiling(code, printfinal):
-    print(code)
+""" csvfileDemo = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
+prepare(csvfileDemo, " INSGESAMT", printfinal)
+prepare(csvfileDemo, "ALTER_KURZ", printfinal)
+prepare(csvfileDemo, "FAMSTND_AUSF", printfinal)
+prepare(csvfileDemo, "GEBURTLAND_GRP", printfinal)
+prepare(csvfileDemo, "GESCHLECHT", printfinal)
+prepare(csvfileDemo, "RELIGION_KURZ", printfinal)
+prepare(csvfileDemo, "STAATSANGE_GRP", printfinal)
+ """
+csvfileHab = "input/csv_Wohnungen_100m_Gitter/Wohnungen100m.csv"
+prepare(csvfileHab, "GEBTYPBAUWEISE", printfinal)
+prepare(csvfileHab, "BAUJAHR_MZ", printfinal)
+prepare(csvfileHab, "HEIZTYP", printfinal)
