@@ -2,24 +2,11 @@ import subprocess
 
 # /home/juju/pythonvenvgridDE/bin/python ./src/tiling.py /usr/bin/python3 /home/juju/workspace/tiled-grid-germany-zensus2011/src/tiling.py
 
-codes = [
-    " INSGESAMT",
-    "ALTER_KURZ",
-    "FAMSTND_AUSF",
-    "GEBURTLAND_GRP",
-    "GESCHLECHT",
-    "RELIGION_KURZ",
-    "STAATSANGE_GRP",
-    "GEBTYPBAUWEISE",
-    "BAUJAHR_MZ",
-    "HEIZTYP",
-]
-
 
 def tiling(code, a):
-    print(code + str(a * 100) + "m")
+    print(code + " " + str(a * 100) + "m")
 
-# gridtiler -i ./input/out_ALTER_KURZ.csv -r 100 -c 3035 -x 3900000 -y 2600000 -p "const a=c.grd_id.split('N')[1].split('E');return {x:100*a[1],y:100*a[0]};" -m "delete c.grd_id" -a 1 -o ./out/ALTER_KURZcsv/100m/ -e csv
+    # gridtiler -i ./input/out_ALTER_KURZ.csv -r 100 -c 3035 -x 3900000 -y 2600000 -p "const a = c.grd_id.split('N')[1].split('E'); return { x:100*a[1],y:100*a[0] };" -m "delete c.grd_id" -a 1 -o ./out/ALTER_KURZcsv/100m/ -e csv
 
     subprocess.run(
         [
@@ -35,7 +22,7 @@ def tiling(code, a):
             "-y",
             "2600000",
             "-p",
-            "\"const a=c.grd_id.split('N')[1].split('E');return {x:100*a[1],y:100*a[0]};\"",
+            "const a = c.grd_id.split('N')[1].split('E'); return { x:100*a[1],y:100*a[0] };",
             "-m",
             '"delete c.grd_id"',
             "-a",
@@ -48,4 +35,17 @@ def tiling(code, a):
     )
 
 
-tiling("ALTER_KURZ", 1)
+for code in [
+    "INSGESAMT",
+    "ALTER_KURZ",
+    "FAMSTND_AUSF",
+    "GEBURTLAND_GRP",
+    "GESCHLECHT",
+    "RELIGION_KURZ",
+    "STAATSANGE_GRP",
+    "GEBTYPBAUWEISE",
+    "BAUJAHR_MZ",
+    "HEIZTYP",
+]:
+    for a in [1, 2, 5, 10, 20, 50, 100, 200, 500]:
+        tiling(code, a)

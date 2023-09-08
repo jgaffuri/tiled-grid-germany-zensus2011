@@ -49,7 +49,7 @@ def prepare(csvfile, sep, code, printfinal):
 
 
 printfinal = False
-""" csvfileDemo = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
+csvfileDemo = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
 prepare(csvfileDemo, ";", " INSGESAMT", printfinal)
 prepare(csvfileDemo, ";", "ALTER_KURZ", printfinal)
 prepare(csvfileDemo, ";", "FAMSTND_AUSF", printfinal)
@@ -57,7 +57,8 @@ prepare(csvfileDemo, ";", "GEBURTLAND_GRP", printfinal)
 prepare(csvfileDemo, ";", "GESCHLECHT", printfinal)
 prepare(csvfileDemo, ";", "RELIGION_KURZ", printfinal)
 prepare(csvfileDemo, ";", "STAATSANGE_GRP", printfinal)
- """
+#TODO rename "out_ INSGESAMT.csv" into "out_INSGESAMT.csv"
+
 csvfileHab = "input/csv_Wohnungen_100m_Gitter/Wohnungen100m.csv"
 prepare(csvfileHab, ",", "GEBTYPBAUWEISE", printfinal)
 prepare(csvfileHab, ",", "BAUJAHR_MZ", printfinal)
