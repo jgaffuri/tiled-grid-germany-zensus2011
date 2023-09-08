@@ -6,11 +6,11 @@ import pandas as pd
 import numpy as np
 
 
-def prepare(csvfile, code, printfinal):
+def prepare(csvfile, sep, code, printfinal):
     print(code)
 
     print("Load data")
-    df = pd.read_csv(csvfile, sep=";", encoding="iso-8859-1")  # , nrows=1000000)
+    df = pd.read_csv(csvfile, sep=sep, encoding="iso-8859-1") #, nrows=10000)
 
     print("drop unecessary columns")
     df = df.drop(["Gitter_ID_100m_neu", "Auspraegung_Text", "Anzahl_q"], axis=1)
@@ -56,15 +56,15 @@ def prepare(csvfile, code, printfinal):
 
 printfinal = False
 """ csvfileDemo = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
-prepare(csvfileDemo, " INSGESAMT", printfinal)
-prepare(csvfileDemo, "ALTER_KURZ", printfinal)
-prepare(csvfileDemo, "FAMSTND_AUSF", printfinal)
-prepare(csvfileDemo, "GEBURTLAND_GRP", printfinal)
-prepare(csvfileDemo, "GESCHLECHT", printfinal)
-prepare(csvfileDemo, "RELIGION_KURZ", printfinal)
-prepare(csvfileDemo, "STAATSANGE_GRP", printfinal)
+prepare(csvfileDemo, ";", " INSGESAMT", printfinal)
+prepare(csvfileDemo, ";", "ALTER_KURZ", printfinal)
+prepare(csvfileDemo, ";", "FAMSTND_AUSF", printfinal)
+prepare(csvfileDemo, ";", "GEBURTLAND_GRP", printfinal)
+prepare(csvfileDemo, ";", "GESCHLECHT", printfinal)
+prepare(csvfileDemo, ";", "RELIGION_KURZ", printfinal)
+prepare(csvfileDemo, ";", "STAATSANGE_GRP", printfinal)
  """
 csvfileHab = "input/csv_Wohnungen_100m_Gitter/Wohnungen100m.csv"
-prepare(csvfileHab, "GEBTYPBAUWEISE", printfinal)
-prepare(csvfileHab, "BAUJAHR_MZ", printfinal)
-prepare(csvfileHab, "HEIZTYP", printfinal)
+prepare(csvfileHab, ",", "GEBTYPBAUWEISE", printfinal)
+prepare(csvfileHab, ",", "BAUJAHR_MZ", printfinal)
+prepare(csvfileHab, ",", "HEIZTYP", printfinal)

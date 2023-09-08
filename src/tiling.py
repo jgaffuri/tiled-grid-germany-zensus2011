@@ -1,6 +1,11 @@
 import subprocess
 
 
+codes = [" INSGESAMT","ALTER_KURZ","FAMSTND_AUSF","GEBURTLAND_GRP","GESCHLECHT","RELIGION_KURZ","STAATSANGE_GRP","GEBTYPBAUWEISE","BAUJAHR_MZ","HEIZTYP"]
+
+
+
+
 def tiling(code):
     print(code)
 
