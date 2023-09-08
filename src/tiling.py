@@ -39,14 +39,14 @@ def tiling(code, a, t):
 
 # increase javascript heap size
 # export NODE_OPTIONS="--max-old-space-size=16384"
-#subprocess.run(['export NODE_OPTIONS="--max-old-space-size=16384"'])
+# subprocess.run(['export NODE_OPTIONS="--max-old-space-size=16384"'])
 
 for code in [
-    # "INSGESAMT",
-    # "ALTER_KURZ",
-    # "FAMSTND_AUSF",
-    #"GEBURTLAND_GRP",
-    #"GESCHLECHT",
+    "INSGESAMT",
+    "ALTER_KURZ",
+    "FAMSTND_AUSF",
+    "GEBURTLAND_GRP",
+    "GESCHLECHT",
     "RELIGION_KURZ",
     "STAATSANGE_GRP",
     "GEBTYPBAUWEISE",
