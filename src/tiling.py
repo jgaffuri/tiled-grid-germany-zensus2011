@@ -45,7 +45,7 @@ for code in [
     # "INSGESAMT",
     # "ALTER_KURZ",
     # "FAMSTND_AUSF",
-    "GEBURTLAND_GRP",
+    #"GEBURTLAND_GRP",
     "GESCHLECHT",
     "RELIGION_KURZ",
     "STAATSANGE_GRP",
