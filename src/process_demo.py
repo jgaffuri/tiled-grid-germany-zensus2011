@@ -14,10 +14,30 @@ csvfile = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
 csvfileout = "input/csv_Demographie_100m_Gitter/out_demo.csv"
 
 print("Load data")
-df = pd.read_csv(csvfile, sep=';', encoding='iso-8859-1') #, nrows=100)
+df = pd.read_csv(csvfile, sep=';', encoding='iso-8859-1', nrows=100000)
 
 print("drop unecessary columns")
 df = df.drop(['Gitter_ID_100m_neu', 'Auspraegung_Text', 'Anzahl_q'], axis=1)
+
+
+def doStuff(code):
+    print(code)
+
+
+
+doStuff("aaaaa")
+
+
+
+
+
+
+
+print("drop unecessary rows")
+df = df[df.Merkmal != 'ALTER_10JG']
+df = df[df.Merkmal != 'STAATSANGE_HLND']
+df = df[df.Merkmal != 'STAATSANGE_KURZ']
+df = df[df.Merkmal != 'STAATZHL']
 
 print("modify Merkmal column")
 df['Merkmal'] = df.apply(lambda row: row["Merkmal"].replace(' INSGESAMT', 'INSGESAMT'), axis=1)
@@ -45,7 +65,7 @@ df = pd.pivot_table(df, columns=['variable'], values='value', index=['grd_id'], 
 #print("Round")
 #df = df.round()
 
-#print(df)
+print(df)
 
 print("Save")
 df.to_csv(csvfileout)  
