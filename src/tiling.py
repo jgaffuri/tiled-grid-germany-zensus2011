@@ -24,7 +24,7 @@ def tiling(code, a):
             "-p",
             "const a = c.grd_id.split('N')[1].split('E'); return { x:100*a[1],y:100*a[0] };",
             "-m",
-            '"delete c.grd_id"',
+            "delete c.grd_id",
             "-a",
             str(a),
             "-o",
