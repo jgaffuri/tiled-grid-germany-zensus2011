@@ -1,6 +1,6 @@
 #!/home/juju/pythonvenvgridDE/bin python
 
-#/home/juju/pythonvenvgridDE/bin/python ./src/process_demo.py /usr/bin/python3 /home/juju/workspace/tiled-grid-germany-zensus2011/src/process_demo.py
+# /home/juju/pythonvenvgridDE/bin/python ./src/process_demo.py /usr/bin/python3 /home/juju/workspace/tiled-grid-germany-zensus2011/src/process_demo.py
 
 import pandas as pd
 import numpy as np
@@ -10,64 +10,76 @@ import numpy as np
 # https://github.com/wahlatlas/grid_data/blob/main/gridviz_tiled_csv.ipynb
 
 
-csvfile = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
-csvfileout = "input/csv_Demographie_100m_Gitter/out_demo.csv"
-
-print("Load data")
-df = pd.read_csv(csvfile, sep=';', encoding='iso-8859-1', nrows=100000)
-
-print("drop unecessary columns")
-df = df.drop(['Gitter_ID_100m_neu', 'Auspraegung_Text', 'Anzahl_q'], axis=1)
-
-
-def doStuff(code):
+def prepare(code, printfinal):
     print(code)
 
+    print("Load data")
+    csvfile = "input/csv_Demographie_100m_Gitter/Bevoelkerung100M.csv"
+    df = pd.read_csv(csvfile, sep=";", encoding="iso-8859-1") #, nrows=1000000)
+
+    print("drop unecessary columns")
+    df = df.drop(["Gitter_ID_100m_neu", "Auspraegung_Text", "Anzahl_q"], axis=1)
+
+    print("drop unecessary rows")
+    df = df[df.Merkmal == code]
+
+    #print("modify Merkmal column")
+    #df["Merkmal"] = df.apply(lambda row: row["Merkmal"].replace(" INSGESAMT", "INSGESAMT"), axis=1)
+
+    #print("Make new variable column")
+    #df["variable"] = df.apply(lambda row: row["Merkmal"] + "_" + str(row["Auspraegung_Code"]), axis=1)
+
+    print("Drop unecessary columns")
+    df = df.drop(["Merkmal"], axis=1)
+
+    print("Make new grd_id column")
+    df["grd_id"] = df.apply(
+        lambda row: row["Gitter_ID_100m"].replace("100m", ""), axis=1
+    )
+
+    print("Drop unecessary column")
+    df = df.drop(["Gitter_ID_100m"], axis=1)
+
+    print("Rename Anzahl column")
+    df = df.rename(columns={"Anzahl": "value"})
+
+    print("Pivot")
+    # .groupby("grd_id").pivot("Auspraegung_Code", ["value"])
+    # https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot_table.html
+    df = pd.pivot_table(
+        df,
+        columns=["Auspraegung_Code"],
+        values="value",
+        index=["grd_id"],
+        aggfunc=np.sum,
+        fill_value=0,
+    )
+
+    # print("Round")
+    # df = df.round()
+
+    if printfinal:
+        print(df)
+
+    print("Save")
+    df.to_csv("input/csv_Demographie_100m_Gitter/out_" + code + ".csv")
+
+    print("Done " + code)
 
 
-doStuff("aaaaa")
+printfinal = False
+prepare(" INSGESAMT", printfinal)
+prepare("ALTER_KURZ", printfinal)
+prepare("FAMSTND_AUSF", printfinal)
+prepare("GEBURTLAND_GRP", printfinal)
+prepare("GESCHLECHT", printfinal)
+prepare("RELIGION_KURZ", printfinal)
+prepare("STAATSANGE_GRP", printfinal)
 
 
 
 
 
 
-
-print("drop unecessary rows")
-df = df[df.Merkmal != 'ALTER_10JG']
-df = df[df.Merkmal != 'STAATSANGE_HLND']
-df = df[df.Merkmal != 'STAATSANGE_KURZ']
-df = df[df.Merkmal != 'STAATZHL']
-
-print("modify Merkmal column")
-df['Merkmal'] = df.apply(lambda row: row["Merkmal"].replace(' INSGESAMT', 'INSGESAMT'), axis=1)
-
-print("Make new variable column")
-df['variable'] = df.apply(lambda row: row["Merkmal"] + "_" + str(row["Auspraegung_Code"]), axis=1)
-
-print("Drop unecessary columns")
-df = df.drop(['Merkmal', 'Auspraegung_Code'], axis=1)
-
-print("Make new grd_id column")
-df['grd_id'] = df.apply(lambda row: row["Gitter_ID_100m"].replace('100m', ''), axis=1)
-
-print("Drop unecessary column")
-df = df.drop(['Gitter_ID_100m'], axis=1)
-
-print("Rename Anzahl column")
-df = df.rename(columns={"Anzahl": "value"})
-
-print("Pivot")
-#.groupby("grd_id").pivot("variable", ["value"])
-# https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot_table.html
-df = pd.pivot_table(df, columns=['variable'], values='value', index=['grd_id'], aggfunc=np.sum, fill_value=0)
-
-#print("Round")
-#df = df.round()
-
-print(df)
-
-print("Save")
-df.to_csv(csvfileout)  
-
-print("Done")
+def tiling(code, printfinal):
+    print(code)
