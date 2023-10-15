@@ -5,7 +5,7 @@ Store it in a *input* folder at the root of the project.
 
 The downloaded data can be proccessed with the python scripts:
   1. `preparation.py` to extract and format the data into CSV files created at the root of the `input/` folder.
-  2. `tiling.py` to extract and format these files. [gridtiler](https://github.com/eurostat/gridtiler) need to be installed. The output is stored in the `out/` folder.
+  2. `tiling.py` to extract and format these files. [gridtiler](https://github.com/eurostat/gridtiler#installation) need to be installed. The output is stored in the `out/` folder.
 
 ## Copyright
 
